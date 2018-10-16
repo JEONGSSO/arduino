@@ -17,7 +17,7 @@
 //  char* ssid = "tjoeun604";
 //  char* password = "029381119";
 
-  char* serverip = "192.168.0.58";    //ipconfig ipv4 적으세요
+  char* serverip = "www.dogfriends.site";    //ipconfig ipv4 적으세요
   String localp = (String)WiFi.localIP();
   
   // Json변환에 필요한 버퍼 용량은 200
@@ -52,7 +52,7 @@ void setup()
     
     Serial.begin(9600);
 
-    pinMode(TRIGGER_PIN,INPUT); //와이파이 리셋할때 쓸 버튼 아직 구현 X
+//    pinMode(TRIGGER_PIN,INPUT); //와이파이 리셋할때 쓸 버튼 아직 구현 X
     
     //WiFiManager 자세한 설명 https://www.instructables.com/id/ESP8266-and-ESP32-With-WiFiManager/
     WiFiManager wifiManager;  //http://www.jy-soft.net:369/index.php?mid=ARDUINO&document_srl=46512&listStyle=viewer
