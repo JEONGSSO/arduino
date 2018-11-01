@@ -90,7 +90,7 @@ void loop()
 void SendTemp(){
   if(client.connect(serverip, 8080)){ //ipconfig ipv4 적으세요
     //온습도 받는 페이지 post방식
-    client.print("POST /setTempHumi");
+    client.print("GET /settemphumi?temp="+(String)temp+"&humi="+(String)humi);
     client.print(" HTTP/1.1\r\n");
     client.print("Host:"+localp+"\r\n");   //ipconfig ipv4 적으세요
     client.print("Content-Type:application/json\r\n");
@@ -99,6 +99,7 @@ void SendTemp(){
     client.println();
     client.println(jsondata);
     client.println("\r\n\r\n");
+    Serial.print("GET /settemphumi?temp="+(String)temp+"&humi="+(String)humi);
   }
 }
 

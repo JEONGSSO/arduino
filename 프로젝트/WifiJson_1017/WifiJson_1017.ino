@@ -10,16 +10,14 @@
   String password = WiFi.psk();
 
   int temp = 23;
-  int humi = 10;
-  bool power = false;
-  bool manual = false;
+  int humi = 45;
 
   String jsondata = ""; //Json을 담을 곳
 
 //  char* ssid = "tjoeun604";
 //  char* password = "029381119";
 
-  char* serverip = "192.168.0.58";    //ipconfig ipv4 적으세요 //www.dogfriends.site
+  char* serverip = "www.dogfriends.site";    //ipconfig ipv4 적으세요 //www.dogfriends.site
   String localp = (String)WiFi.localIP(); //192.168.0.58
   
   // Json변환에 필요한 버퍼 용량은 200
@@ -59,9 +57,9 @@ void setup()
     //WiFiManager 자세한 설명 https://www.instructables.com/id/ESP8266-and-ESP32-With-WiFiManager/
     WiFiManager wifiManager;  //http://www.jy-soft.net:369/index.php?mid=ARDUINO&document_srl=46512&listStyle=viewer
 
-//    WiFi.begin((const char*)ssid.c_str(), (const char*)password.c_str()); //String 문자열 변환
+  WiFi.begin((const char*)ssid.c_str(), (const char*)password.c_str()); //String 문자열 변환
   wifiManager.startConfigPortal("Dogfriend"); //와이파이 이름
-  wifiManager.autoConnect((const char*)ssid.c_str(), (const char*)password.c_str()); //이 이름으로 자동 연결
+//  wifiManager.autoConnect((const char*)ssid.c_str(), (const char*)password.c_str()); //이 이름으로 자동 연결
   Serial.println("success!");
   Serial.print("IP Address is: ");
   Serial.println(WiFi.localIP());
@@ -77,13 +75,10 @@ void loop()
 */
     root["temp"] = temp;  
     root["humi"] = humi;
-//    root["power"] = power;
-//    root["manual"] = manual;
     
     root.printTo(jsondata);
   
     SendTemp();
-//    rcvHandle();
     delay(1000);
     jsondata = "";    //데이터 초기화
 }
@@ -92,34 +87,14 @@ void SendTemp(){
     //온습도 받는 페이지 post방식
     client.print("POST /setTempHumi");
     client.print(" HTTP/1.1\r\n");
-    client.print("Host:"+localp+"\r\n");   //ipconfig ipv4 적으세요
+    client.print("Host:www.dogfriends.site\r\n");   //ipconfig ipv4 적으세요
     client.print("Content-Type:application/json\r\n");
     client.print("Content-Length: ");
     client.println(jsondata.length());
     client.println();
     client.println(jsondata);
     client.println("\r\n\r\n");
+
+    Serial.println(jsondata);
   }
 }
-
-/*void rcvHandle(){
-//    if(client.connect(serverip, 8080)){ //ipconfig ipv4 적으세요
-
-    client.print("GET /arduino/handle");
-    client.print(" HTTP/1.1\r\n");
-    client.print("Host:"+localp+":8080\r\n");   //ipconfig ipv4 적으세요
-    client.print("Content-Type:application/json\r\n");
-    client.print("Content-Length: "); //+localp+":8080
-    client.println(jsondata.length());
-    client.println();
-    client.println(jsondata);
-    client.println("\r\n\r\n");
-//    char reading = client.read();
-//    String rcvbuf += reading;
-//      JsonObject & root = jsonBuffer.parseObject(rcvbuf)
-//    String result = root["result"];
-//    Serial.println(result);
-
-//    Serial.println(reading);
-//  }
-}*/
